@@ -1,0 +1,144 @@
+---
+title: 'Web font optimization'
+description: 'What to watch out for when using custom fonts on the web'
+pubDate: '2023-10-19T15:31:08.000Z'
+---
+
+## Do you even need a custom font?
+
+Before you start reading this article, ask yourself if you actually need a custom font.
+In the end, the fastest loaded font is the one that is not loaded at all.
+
+In example bellow you can see how to pick all system fonts on different OSes.
+
+```css
+:root {
+	font-family:
+		system-ui,
+		-apple-system,
+		'Segoe UI',
+		'Roboto',
+		'Ubuntu',
+		'Cantarell',
+		'Noto Sans',
+		sans-serif,
+		'Apple Color Emoji',
+		'Segoe UI Emoji',
+		'Segoe UI Symbol',
+		'Noto Color Emoji';
+}
+```
+
+However, in most scenarios you simply don't have a choice, so let's get to it.
+
+## Why should I optimize fonts?
+
+Maybe you are just chasing 100/100 score in lighthouse, or you just can't use Google fonts, or you are just curious.
+Optimizing your fonts can save you some bandwidth and by that make your page load a bit faster and that's what frontend devs are all about, right?
+
+## How can I optimize my fonts then?
+
+Here is a list for you:
+
+- Try to use local font
+- Use modern formats
+- Don't load glyphs you don't need
+
+### Try to use local font
+
+All devices have some default fonts installed, for example if you are using Roboto, Android devices have it built in, so there is no need to download it again.
+Use [`local()`](https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/src#localfont-face-name) to try to use local font first and if it is not available, then download it.
+
+```css
+@font-face {
+	font-family: 'Roboto';
+	font-style: normal;
+	font-weight: 400;
+	src:
+		local('Roboto'),
+		url('/fonts/roboto.woff2') format('woff2');
+}
+```
+
+### Use modern formats
+
+These days you can safely use modern `.woff2` format and if you really care about that 0.1% of users that are still using IE, you can use `.woff` like so.
+
+```css
+@font-face {
+	font-family: 'Comic Sans MS';
+	font-style: normal;
+	font-weight: 400;
+	src:
+		url('/fonts/comic-sans-ms.woff2') format('woff2'),
+		url('/fonts/comic-sans-ms.woff') format('woff');
+}
+```
+
+Make sure that `.woff2` is the first format in the list, because **_browsers will pick the first compatible format_**.
+
+So even if you have your super tiny `.woff2` file, if it's not the first font in `src:` browser will download the first compatible font, or worse it will download `.eot` and then `.woff`. I am looking at you, Firefox.
+
+### Don't load glyphs you don't need
+
+#### Limiting glyph count
+
+I am pretty sure your blog in English doesn't need Chinese or Japanese glyphs, so why load them? You can use [fonttools](https://github.com/fonttools/fonttools) or similar tool to remove glyphs you don't need.
+Just make sure you don't remove any glyphs you actually need, like special characters or emojis. Also, make sure you are not modifying a licensed font.
+
+In case you are dealing with a multilingual page, you can use fonttools to split your font into multiple files.
+Use [`unicode-range`](https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/unicode-range) to load only glyph range you actually need.
+This is more important for Asian languages where glyph count is much larger.
+You can find Unicode ranges for different languages here [Unicode Character Charts](https://www.unicode.org/charts/).
+
+```css
+/* Limited Latin glyphs */
+@font-face {
+	font-family: 'Comic Sans MS';
+	font-style: normal;
+	font-weight: 400;
+	src:
+		local('Comic Sans MS'),
+		url('/fonts/comic-sans-latin.woff2') format('woff2');
+	unicode-range: U+0000-007F;
+}
+
+/* Chinese simplified glyphs */
+@font-face {
+	font-family: 'Comic Sans MS';
+	font-style: normal;
+	font-weight: 400;
+	src:
+		local('Comic Sans MS'),
+		url('/fonts/comic-sans-zh.woff2') format('woff2');
+	unicode-range: U+4E00-9FFF, U+3400-4DBF;
+}
+```
+
+### Font weight and style
+
+Are you asking yourself if you even need to load bold and italic glyphs?
+
+I have just the thing for you! Browsers can synthesize their own bold and italic glyphs, so you don't need to load them!
+
+However, this is far from perfect, so your mileage might vary. This is also different for each browser and OS, so make sure to check with your designer.
+Another problem might be with languages where _italic_ forms are in different shape.
+
+So if pixel perfect fonts are something you are looking for, you will need to download them.
+
+## Final thoughts
+
+If you need to use custom font, make sure you are using `.woff2` and if you have some spare time, remove glyphs you don't need or split them into separate files.
+
+> buT wHaT aBOut mY inTeRNeT ExpLorER 8 sUppPoRt?
+
+`.woff` is supported by IE9+ if you really need to support something older than that, then stop and get some help.
+
+On a serious note, those users will appreciate if you stick to system fonts.
+
+## Resources
+
+- [W3 CSS Fonts Module Level 3](https://www.w3.org/TR/css-fonts-3/#descdef-unicode-range)
+- [MDN @font-face](https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face)
+- [web.dev Reduce web font size](https://web.dev/articles/reduce-webfont-size)
+- [igvita.com Optimizing Webfont Selection and Synthesis](https://www.igvita.com/2014/09/16/optimizing-webfont-selection-and-synthesis/)

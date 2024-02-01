@@ -1,0 +1,35 @@
+---
+import { Picture } from 'astro:assets'
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts'
+import BaseHead from '../components/BaseHead.astro'
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
+import RecentPosts from '../components/home/RecentPosts.astro'
+import duckImage from '../assets/images/duck.jpg'
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body class="flex min-h-dvh flex-col bg-bg text-primary/90">
+		<Header title={SITE_TITLE} />
+		<main class="my-4 flex grow flex-col items-center justify-center">
+			<Picture
+				src={duckImage}
+				formats={['avif', 'webp']}
+				width={200}
+				height={200}
+				densities={[1, 1.5, 2]}
+				alt="A picture suggesting Jan might be a duck"
+				class="rounded-3xl"
+				loading="eager"
+			/>
+			<h1 class="mt-8 text-4xl font-semibold">Jan Gregor</h1>
+			<p class="mt-2 text-lg text-primary/80">Web Developer</p>
+			<RecentPosts />
+		</main>
+		<Footer />
+	</body>
+</html>

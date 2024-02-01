@@ -1,0 +1,32 @@
+---
+import HeaderLink from './HeaderLink.astro'
+import { Icon } from 'astro-icon/components'
+import Link from './Link.astro'
+---
+
+<header class="bg-secondary/30">
+	<nav class="mx-auto flex w-full max-w-7xl justify-between gap-4 p-4">
+		<div class="flex items-center gap-2">
+			<HeaderLink href="/">Home</HeaderLink>
+			<HeaderLink href="/posts">Posts</HeaderLink>
+		</div>
+		<div class="flex gap-2">
+			<Link class="hover:scale-105" href="https://github.com/gregorjan" target="_blank">
+				<Icon name="github" />
+				<span class="sr-only">Go to Jan's GitHub</span>
+			</Link>
+			<Link class="hover:scale-105" href="https://www.linkedin.com/in/jan-gregor" target="_blank">
+				<Icon name="linkedin" />
+				<span class="sr-only">Go to Jan's LinkedIn</span>
+			</Link>
+			<Link class="hover:scale-105" href="mailto:jan.gregor@tuta.io" target="_blank">
+				<Icon name="envelope" />
+				<span class="sr-only">Send Jan an email</span>
+			</Link>
+			<Link class="hover:scale-105" href="/index.xml" target="_blank">
+				<Icon name="rss" />
+				<span class="sr-only">Jan's RSS feed</span>
+			</Link>
+		</div>
+	</nav>
+</header>

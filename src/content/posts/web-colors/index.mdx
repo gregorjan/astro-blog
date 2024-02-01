@@ -1,0 +1,85 @@
+---
+title: 'Web colors, more than just #000'
+pubDate: 'Jul 08 2024'
+description: 'Colors and what CSS Color 4 brought to web'
+draft: true
+---
+
+import srgbMeme from './srgb-always-has-been.jpg'
+import { Picture } from 'astro:assets'
+
+## Displays and color spaces
+
+Since I started working with webs and long time before that, there was always only one supported color gamut called sRGB. That was and still is good enough for a lot of use cases, but with rising popularity of HDR and other displays supporting wider color gamut, need for wider color gamut support on the web is rising too.
+
+<Picture
+	loading="eager"
+	src={srgbMeme}
+	formats={['avif', 'webp']}
+	widths={[280, 540, 720, srgbMeme.width]}
+	sizes={`(max-width: 360px) 280px, (max-width: 720px) 540px, (max-width: 1600px) 720px, ${srgbMeme.width}px`}
+	alt="Always has been SRGB meme"
+/>
+
+`rgb()`, `rgba()`, `hsl()`, `hsla()` and hex are all in sRGB color space. There are some minor differences between them and conversion between one to another and back is not 100% accurate, generally speaking we can treat them as same thing, just written differently.
+
+In total there are 16 777 216 colors in sRGB color space. That's a lot, but sometimes just not enough. For example, if you want to display a photo taken with a camera that supports wider color gamut, you will need to convert it to sRGB, and you will lose some colors. Let's not forget about gradients, where you can see banding quite easily.
+
+## CSS Color 4 to the rescue!
+
+CSS Color 4 brought us new color spaces and functions to work with them. Browsers are supporting the vast majority of them, so let's take a look.
+
+### New color spaces
+
+- `display-p3` - has been around from 2016, initially only supported on Apple devices, but these days it's widely supported and used.
+- `rec2020` - newer standard, even more colors, but not as many devices support it yet.
+
+### New functions
+
+### `color()` function
+
+All major browsers are now supporting [can I use](https://caniuse.com/?search=color%28%29) `color()` function. You can specify different color like so:
+
+```css
+.red-srgb {
+	color: color(srgb 1 0 0);
+}
+.green-display-p3 {
+	color: color(display-p3 0 1 0);
+}
+.blue-rec2020 {
+	color: color(rec2020 0 0 1);
+}
+```
+
+Hey, that looks the same just color space is changing! And that's the point. All of those accept RGB values in range 0-1. You can just be more precise with them.
+
+with those you can easily specify colors in different color spaces and compare them side by side.
+
+## Backwards compatibility
+
+But many use a browser that is not supporting `color()` function, or just one of the color spaces. You can simply use `@media` queries to provide fallback for those browsers.
+
+```css
+.red {
+	color: rgb(255, 0, 0);
+}
+@media (color-gamut: display-p3) {
+	.red {
+		background-color: color(display-p3 1 0 0);
+	}
+}
+@media (color-gamut: rec2020) {
+	.red {
+		background-color: color(rec2020 1 0 0);
+	}
+}
+```
+
+## Read more about color spaces
+
+- [New functions, gradients, and hues in CSS colors (Level 4) developer.mozilla](https://developer.mozilla.org/en-US/blog/css-color-module-level-4/)
+- [CSS Color Module Level 4 w3.org](https://www.w3.org/TR/css-color-4/)
+- [High Definition CSS Color Guide developer.chrome](https://developer.chrome.com/articles/high-definition-css-color-guide/)
+- [CSS Color Module Level 5 w3.org](https://www.w3.org/TR/css-color-5/)
+- [Color Spaces Bartosz Ciechanowski](https://ciechanow.ski/color-spaces/)

@@ -1,0 +1,17 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+import Link from './Link.astro'
+import { cn } from '../utils'
+
+type Props = HTMLAttributes<'a'>
+
+const { href, class: className } = Astro.props
+
+const { pathname } = Astro.url
+
+const isActive = href === pathname || href === pathname.replace(/\/$/, '')
+---
+
+<Link class={cn({ 'font-bold': isActive }, className)} href={href}>
+	<slot />
+</Link>

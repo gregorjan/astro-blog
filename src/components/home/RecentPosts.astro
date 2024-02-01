@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content'
+import FormattedDate from '../FormattedDate.astro'
+import Link from '../Link.astro'
+
+const posts = (await getCollection('posts'))
+	.filter(({ data }) => !data.draft)
+	.sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf())
+if (posts.length > 5) {
+	posts.length = 5
+}
+---
+
+<section
+	class="mx-6 mt-7 flex flex-col self-stretch rounded-xl bg-secondary/30 p-4 md:mx-12 lg:w-[1000px] lg:self-center"
+>
+	<h2 class="text-2xl text-primary/70">Recent posts:</h2>
+	<ul class="mt-2">
+		{
+			posts.map(({ slug, data }) => (
+				<li class="mx-2 py-2 md:border-b-2 md:border-primary/10">
+					<Link class="items-baseline justify-between gap-2 md:flex" href={`/posts/${slug}/`}>
+						<h3 class="text-lg font-semibold">{data.title}</h3>
+						<FormattedDate date={data.pubDate} />
+					</Link>
+				</li>
+			))
+		}
+	</ul>
+	<Link class="mt-4 self-center text-center text-primary/70 hover:underline" href="/posts"> All posts </Link>
+</section>

@@ -1,0 +1,20 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+import { cn } from '../utils'
+
+type Props = {
+	date: Date
+} & HTMLAttributes<'time'>
+
+const { date, class: className, ...rest } = Astro.props
+---
+
+<time datetime={date.toISOString()} class={cn('inline-block text-primary/70', className)} {...rest}>
+	{
+		date.toLocaleDateString('en-gb', {
+			year: 'numeric',
+			month: 'short',
+			day: 'numeric',
+		})
+	}
+</time>
