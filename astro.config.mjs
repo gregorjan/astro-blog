@@ -23,7 +23,7 @@ export default defineConfig({
 	},
 	markdown: {
 		shikiConfig: {
-			theme: 'github-dark',
+			theme: 'dark-plus',
 			langs: ['css', 'typescript', 'html', 'json'],
 			wrap: true,
 			transformers: [],
