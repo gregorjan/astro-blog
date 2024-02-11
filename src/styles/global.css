@@ -11,3 +11,7 @@
 		--color-bg: 0 0 0;
 	}
 }
+
+* {
+	@apply outline-2 outline-offset-2 outline-primary focus-visible:outline;
+}

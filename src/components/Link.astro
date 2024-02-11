@@ -9,10 +9,7 @@ const { href, class: className, ...props } = Astro.props
 
 <a
 	href={href}
-	class={cn(
-		'inline-block rounded-sm text-primary/80 no-underline outline-offset-2 outline-primary hover:text-primary hover:underline focus-visible:outline-2',
-		className
-	)}
+	class={cn('inline-block rounded-sm text-primary/80 no-underline hover:text-primary hover:underline', className)}
 	{...props}
 >
 	<slot />
