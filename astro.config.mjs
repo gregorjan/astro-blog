@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config'
 import mdx from '@astrojs/mdx'
+import robotsTxt from 'astro-robots-txt'
 import sitemap from '@astrojs/sitemap'
 import icon from 'astro-icon'
 import tailwind from '@astrojs/tailwind'
@@ -9,6 +10,7 @@ export default defineConfig({
 	site: 'https://blog.gregorjan.eu',
 	integrations: [
 		mdx(),
+		robotsTxt(),
 		sitemap(),
 		tailwind(),
 		icon({
