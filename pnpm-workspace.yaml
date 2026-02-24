@@ -1,0 +1,5 @@
+allowedDeprecatedVersions: '{}'
+
+ignoredBuiltDependencies:
+  - esbuild
+  - sharp

@@ -1,17 +1,21 @@
-:root {
-	--color-primary: 0 0 0;
-	--color-secondary: 105 128 184;
-	--color-bg: 255 255 255;
+@import 'tailwindcss';
+@source "../../src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}";
+@plugin '@tailwindcss/typography';
+
+@theme {
+	--color-primary: rgb(0 0 0);
+	--color-secondary: rgb(105 128 184);
+	--color-bg: rgb(255 255 255);
 }
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--color-primary: 255 255 255;
-		--color-secondary: 105 128 184;
-		--color-bg: 0 0 0;
+		--color-primary: rgb(255 255 255);
+		--color-secondary: rgb(105 128 184);
+		--color-bg: rgb(0 0 0);
 	}
 }
 
 * {
-	@apply outline-2 outline-offset-2 outline-primary focus-visible:outline;
+	@apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary;
 }

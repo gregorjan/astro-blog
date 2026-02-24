@@ -3,7 +3,7 @@ import mdx from '@astrojs/mdx'
 import robotsTxt from 'astro-robots-txt'
 import sitemap from '@astrojs/sitemap'
 import icon from 'astro-icon'
-import tailwind from '@astrojs/tailwind'
+import tailwindcss from '@tailwindcss/vite'
 
 // https://astro.build/config
 export default defineConfig({
@@ -12,11 +12,13 @@ export default defineConfig({
 		mdx(),
 		robotsTxt(),
 		sitemap(),
-		tailwind(),
 		icon({
 			iconDir: 'src/assets/svg',
 		}),
 	],
+	vite: {
+		plugins: [tailwindcss()],
+	},
 	prefetch: true,
 	experimental: {
 		clientPrerender: true,
