@@ -8,13 +8,12 @@ import Header from '../components/Header.astro'
 
 type Props = CollectionEntry<'posts'>['data']
 
-const { title, description, pubDate, updatedDate, heroImage, heroImageAlt, draft } = Astro.props
+const { title, description, pubDate, updatedDate, heroImage, heroImageAlt, draft, tags } = Astro.props
 ---
 
 <html lang="en">
-	<html lang="en">
 		<head>
-			<BaseHead title={title} description={description} draft={draft} />
+			<BaseHead title={title} description={description} draft={draft} tags={tags} />
 		</head>
 		<body class="flex min-h-dvh flex-col bg-bg text-primary/90">
 			<Header title={title} />
@@ -47,6 +46,20 @@ const { title, description, pubDate, updatedDate, heroImage, heroImageAlt, draft
 										</div>
 									)
 								}
+								{
+									tags && tags.length > 0 && (
+										<div class="mt-2 flex gap-2">
+											{tags.map((tag) => (
+												<a
+													href={`/posts/tags/${tag}/`}
+													class="rounded-full bg-secondary/20 px-3 py-1 text-sm text-primary/70 no-underline hover:bg-secondary/40"
+												>
+													{tag}
+												</a>
+											))}
+										</div>
+									)
+								}
 							</div>
 						</div>
 						<slot />
@@ -55,5 +68,4 @@ const { title, description, pubDate, updatedDate, heroImage, heroImageAlt, draft
 			</main>
 			<Footer />
 		</body>
-	</html>
 </html>

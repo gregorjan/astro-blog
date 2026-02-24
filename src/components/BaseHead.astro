@@ -8,15 +8,15 @@ interface Props {
 	description: string
 	draft?: boolean
 	image?: string
+	tags?: string[]
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 
-const { title, description, draft, image = '/blog-placeholder-1.jpg' } = Astro.props
+const { title, description, draft, image, tags } = Astro.props
 ---
 
-{draft && <meta name="robots" content="noindex" />}
-<meta name="robots" content="noai, noimageai" />
+{draft ? <meta name="robots" content="noindex, noai, noimageai" /> : <meta name="robots" content="noai, noimageai" />}
 
 <!-- Global Metadata -->
 <meta charset="utf-8" />
@@ -32,16 +32,19 @@ const { title, description, draft, image = '/blog-placeholder-1.jpg' } = Astro.p
 <meta name="title" content={title} />
 <meta name="description" content={description} />
 
+{tags && tags.length > 0 && <meta name="keywords" content={tags.join(', ')} />}
+
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
+<meta property="og:type" content={tags ? 'article' : 'website'} />
+{tags?.map((tag) => <meta property="article:tag" content={tag} />)}
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image, Astro.url)} />
+{image && <meta property="og:image" content={new URL(image, Astro.url)} />}
 
 <!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image, Astro.url)} />
+<meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+<meta name="twitter:url" content={Astro.url} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{image && <meta name="twitter:image" content={new URL(image, Astro.url)} />}

@@ -13,6 +13,7 @@ const posts = defineCollection({
 			heroImage: image().optional(),
 			heroImageAlt: z.string().optional(),
 			draft: z.boolean().optional(),
+			tags: z.array(z.string()).optional(),
 		}),
 })
 
