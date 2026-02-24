@@ -1,0 +1,21 @@
+---
+import BaseHead from '../components/BaseHead.astro'
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
+import { SITE_TITLE } from '../consts'
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`404 | ${SITE_TITLE}`} description="Page not found" />
+	</head>
+	<body class="flex min-h-dvh flex-col bg-bg text-primary/90">
+		<Header title={SITE_TITLE} />
+		<main class="my-4 flex grow flex-col items-center justify-center">
+			<h1 class="text-4xl font-semibold">404</h1>
+			<p class="mt-2 text-lg text-primary/80">Page not found</p>
+		</main>
+		<Footer />
+	</body>
+</html>

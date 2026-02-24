@@ -5,7 +5,7 @@
 	"scripts": {
 		"dev": "astro dev",
 		"build": "astro check && astro build",
-		"preview": "astro preview",
+		"start": "astro preview",
 		"astro": "astro",
 		"prettier": "prettier \"**/*.{js,jsx,ts,tsx,astro}\""
 	},
@@ -25,7 +25,10 @@
 		"typescript": "^5.3.3"
 	},
 	"pnpm": {
-		"onlyBuiltDependencies": ["esbuild", "sharp"]
+		"onlyBuiltDependencies": [
+			"esbuild",
+			"sharp"
+		]
 	},
 	"devDependencies": {
 		"@types/node": "^20.11.12",
