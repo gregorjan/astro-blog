@@ -1,9 +1,9 @@
-import { defineConfig } from 'astro/config'
 import mdx from '@astrojs/mdx'
-import robotsTxt from 'astro-robots-txt'
 import sitemap from '@astrojs/sitemap'
-import icon from 'astro-icon'
 import tailwindcss from '@tailwindcss/vite'
+import { defineConfig } from 'astro/config'
+import icon from 'astro-icon'
+import robotsTxt from 'astro-robots-txt'
 
 // https://astro.build/config
 export default defineConfig({

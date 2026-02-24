@@ -7,6 +7,7 @@ type Props = HTMLAttributes<'a'>
 const { href, class: className, ...props } = Astro.props
 ---
 
+<!-- biome-ignore lint/a11y/useAnchorContent: content provided via slot -->
 <a
 	href={href}
 	class={cn('inline-block rounded-sm text-primary/80 no-underline hover:text-primary hover:underline', className)}
