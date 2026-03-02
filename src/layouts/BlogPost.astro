@@ -62,10 +62,22 @@ const { title, description, pubDate, updatedDate, heroImage, heroImageAlt, draft
 								}
 							</div>
 						</div>
-						<slot />
+						<slot class="fade-in" />
 					</div>
 				</article>
 			</main>
 			<Footer />
 		</body>
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				const observer = new IntersectionObserver((entries) => {
+					entries.forEach(entry => {
+						if (entry.isIntersecting) {
+							entry.target.classList.add("visible");
+						}
+					});
+				}, { threshold: 0.1 });
+				document.querySelectorAll(".fade-in").forEach(el => observer.observe(el));
+			});
+		</script>
 </html>
