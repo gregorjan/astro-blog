@@ -1,0 +1,47 @@
+---
+title: 'Chasing perfect NAS'
+description: 'Looking for right hardware at not so right time'
+pubDate: '2026-03-03T18:00:00.000Z'
+tags: ['NAS', 'hardware', 'selfHosting']
+---
+
+## History
+
+I am running first-gen Ryzen 1700 NAS for quite a while. It stores some data, runs some things as VMs and docker containers.
+Currently it also runs OPNsense router. I really like this hidden complexity of whole network equipment in one box, quite sizeable box (Fractal Define R2).
+It runs on 32 GB of ECC UDIMM RAM and motherboard is ASUS Prime PRO x370 for extra networking there is Intel X550 in bottom slot,
+in top slot there is ASUS Hyper M.2 splitting x16 slot into 4x M.2 for storage.
+Somehow this whole build runs without any GPU. Not that I mind that. At some point I had an Nvidia Quadro P620 for transcodes.
+
+I'm not even sure if I need to upgrade performance-wise. Ryzen 1700 mostly idles. However what I am not a big fan of is its power consumption.
+Even after using PCIe ASPM script lowest number I saw was 37W and 38W most of the time measured with smart plug.
+
+## What would a perfect NAS even look like? 
+
+It should have enough RAM to run all services. It should be able to safely store all my data. It should be able to decode all media without breaking a sweat.
+Do all that without burning much power and it should not cost me an arm and leg.
+
+So the checklist is something like
+- Some way to connect SATA drives
+- Some M.2 slots 
+- ECC Memory
+- AV1 decode (and GPU in general)
+
+First easy and lazy option, just replace CPU. What is the gain here you might ask. Well it's only one component to change so it should be pretty easy on wallet,
+but it also does not bring much to table, no AM4 CPU supports AV1 decoding. At best I could cut couple of watts from power bill since G APUs are designed as monolith and therefore a bit more power efficient. I was eyeing Ryzen 5750G PRO, because only those support ECC.  
+It would be lovely to just allow build to progress from first Ryzen to last, but 5750 is OEM only part not available to mortals so it would mean to get it second hand from another system
+and they are super rare.
+So in the end its probably not worth it all things considered.
+
+Second option would be to just go with newer DDR5 platform. I am not considering this an option given it's 2026 and 32GB stick is ~900€. 
+
+Third option so far my preferred is Intel. Second-hand market with 12th/13th gen seem to be quite available, I found an i5-13500 for 110€. This CPU ticks all boxes. For idle power consumption Intel generally does way better job than AMD, allows for whole spectrum of C-states and all that. Cherry on top is SR-IOV sharing GPU to multiple VMs and 500 at the end means that it has stronger UHD770 GPU. Only annoyance with this CPU is ECC support, this CPU can support ECC, however it needs W680 board to do so. This is where the price spikes. W680 DDR4 board? There are some floating around like
+GIGABYTE MW34-SP0(Rev1.1) and ASROCK workstation boards, those are priced above 500€. So again not a budget option.
+
+Fourth option is to bring an ARM friend
+Maybe I am thinking about this problem wrong. Maybe I don't need one device that does it all, I can see that having the router in a VM in Proxmox that also runs everything else is brittle. 
+I can just use the CM3588 and delegate 95% tasks to it while sipping a couple of watts from wall plug and just wake up main beast when needed.
+
+
+## Conclusion 
+Does chasing 10W make logical sense, no it does not. It might save me around 11€/year. Honestly it's just fun nerd out on some not so common HW. I see it as sort of reverse performance chasing. Graph go down in Home Assistant happy hormones released.
