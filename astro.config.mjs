@@ -7,7 +7,7 @@ import robotsTxt from 'astro-robots-txt'
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://blog.gregorjan.eu',
+	site: 'https://blog.gregor.to',
 	integrations: [
 		mdx(),
 		robotsTxt(),
